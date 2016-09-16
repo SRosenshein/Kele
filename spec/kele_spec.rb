@@ -1,11 +1,13 @@
 require "spec_helper"
 
 describe Kele do
+  
   it "has a version number" do
     expect(Kele::VERSION).not_to be nil
   end
-
-  it "does something useful" do
-    expect(false).to eq(true)
+  
+  it "raises an error with invalid credentials" do
+    expect {Kele::Kele.new("asdffake.com", "12345")}.to raise_error(RuntimeError, 'Invalid Credentials')
   end
+
 end

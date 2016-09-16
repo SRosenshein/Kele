@@ -6,7 +6,7 @@ require 'kele/version'
 Gem::Specification.new do |spec|
   spec.name          = "kele"
   spec.version       = Kele::VERSION
-  spec.date          = '2016-9-13'
+  spec.date          = '2016-09-13'
   spec.authors       = ["Sam Rosenshein"]
   spec.email         = ["srosenshein1@gmail.com"]
 
