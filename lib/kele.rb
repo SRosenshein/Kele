@@ -17,7 +17,7 @@ module Kele
             )
             #puts post_response.inspect
             
-            @auth_token = post_response.body["auth_token"]
+            @auth_token = post_response["auth_token"]
             
             raise "Invalid Credentials" if (!@auth_token)
         end
@@ -34,7 +34,6 @@ module Kele
         
         def parse_user_data(resp)
             user_hash = JSON.parse(resp)
-            puts user_hash
         end
     end
 end
