@@ -27,13 +27,26 @@ module Kele
                 "/users/me",
                 headers: {"authorization" => @auth_token}
             )
-            parse_user_data(response.body)
+            
+            user_data = parser(response.body)
+            user_data.each {|key, value| puts "#{key} - #{value}"}
+        end
+        
+        def get_mentor_availability(m_id)
+            response = self.class.get(
+                "mentors/#{m_id}/student_availability",
+                headers: {"authorization" => @auth_token}
+            )
+            
+            #mentor_data = []
+            response.inspect
+            
         end
         
         private
         
-        def parse_user_data(resp)
-            user_hash = JSON.parse(resp)
+        def parser(data)
+            JSON.parse(data)
         end
     end
 end
