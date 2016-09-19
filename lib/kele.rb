@@ -1,4 +1,3 @@
-
 require_relative "kele/version"
 # dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'httparty'
@@ -34,13 +33,14 @@ module Kele
         
         def get_mentor_availability(m_id)
             response = self.class.get(
-                "mentors/#{m_id}/student_availability",
+                "/mentors/#{m_id}/student_availability",
                 headers: {"authorization" => @auth_token}
             )
             
-            #mentor_data = []
-            response.inspect
-            
+            mentor_availability = parser(response.body)
+            #Array of time slot hashes
+            mentor_availability.each {|time_slot| puts "#{time_slot} \n" if time_slot["booked"] == nil} #ignore booked time slots
+             
         end
         
         private
