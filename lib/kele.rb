@@ -1,10 +1,12 @@
 require_relative "kele/version"
+require_relative "kele/roadmap"
 # dir = File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'httparty'
 module Kele
     class Kele
         require 'json'
         include HTTParty
+        include Roadmap
         base_uri "https://www.bloc.io/api/v1"
         
         def initialize(email, password)
@@ -27,8 +29,7 @@ module Kele
                 headers: {"authorization" => @auth_token}
             )
             
-            user_data = parser(response.body)
-            user_data.each {|key, value| puts "#{key} - #{value}"}
+            parser(response.body)
         end
         
         def get_mentor_availability(m_id)
@@ -39,8 +40,7 @@ module Kele
             
             mentor_availability = parser(response.body)
             #Array of time slot hashes
-            mentor_availability.each {|time_slot| puts "#{time_slot} \n" if time_slot["booked"] == nil} #ignore booked time slots
-             
+            mentor_availability.map {|time_slot| time_slot if time_slot["booked"] == nil} #ignore booked time slots
         end
         
         private

@@ -9,4 +9,5 @@ describe Kele do
   it "raises an error with invalid credentials" do
     expect {Kele::Kele.new("asdffake.com", "12345")}.to raise_error(RuntimeError, 'Invalid Credentials')
   end
+
 end
