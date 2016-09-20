@@ -43,6 +43,28 @@ module Kele
             mentor_availability.map {|time_slot| time_slot if time_slot["booked"] == nil} #ignore booked time slots
         end
         
+        def get_messages(*page)#option of retreiving a page or all messages(no specific page)
+            raise ArgumentError if page.length > 1
+            response = self.class.get(
+                "/message_threads",
+                headers: {"authorization" => @auth_token},
+                #body: {page: (page.count>0 ? page[0] : nil)}
+            )
+            parser(response.body)
+        end
+        
+        def create_message(user_id, recipient_id, options={})
+            message_data = {user_id: user_id, recipient_id: recipient_id, subject: options[:subject], "stripped-text" => options[:body]}
+            message_data[:token] = options[:token] if options[:token]
+            
+            post_response = self.class.post(
+                "/messages",
+                {headers: {"authorization" => @auth_token},
+                body: message_data}
+            ) 
+            parser(post_response.body)
+        end
+        
         private
         
         def parser(data)
