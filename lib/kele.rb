@@ -65,6 +65,16 @@ module Kele
             parser(post_response.body)
         end
         
+        def create_submission(e_id, c_id, options={})
+            submission_data = {enrollment_id: e_id, checkpoint_id: c_id, assignment_branch: options[:branch], assignment_commit_link: options[:link], comment: options[:comment]}
+            
+            post_response = self.class.post(
+                "/checkpoint_submissions",
+                {headers: {"authorization" => @auth_token}, body: submission_data}
+            )
+            parser(post_response.body)
+        end
+        
         private
         
         def parser(data)
